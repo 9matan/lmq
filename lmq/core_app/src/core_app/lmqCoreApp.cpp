@@ -24,10 +24,7 @@
 
 static void private_lmqCoreApp_OnPS4ControllerConnected();
 static void private_lmqCoreApp_OnPS4ControllerDisconnected();
-static bool private_lmqCoreApp_ResetRobotInputTask(
-    void*);
-static lmqGamepadState private_lmqCoreApp_CreateGamepadState(
-    PS4Controller*);
+static lmqGamepadState private_lmqCoreApp_CreateGamepadState(PS4Controller*);
 
 lmqCoreApp* lmqCoreApp::GetInstance()
 {
@@ -65,7 +62,7 @@ void lmqCoreApp::InitializeRobot()
 void lmqCoreApp::InitializeInputControllers()
 {
     m_consoleInputController = new lmqConsoleInputController(m_robotController);
-    m_engine->GetConsole().RegisterConsoleListener(this);
+    m_engine->GetConsole().RegisterConsoleListener(m_consoleInputController);
 
     m_ps4Controller = new PS4Controller();
     m_ps4Controller->begin();
@@ -86,6 +83,8 @@ void lmqCoreApp::Update()
 
 void lmqCoreApp::UpdateInputControllers()
 {
+    m_consoleInputController->Update();
+
     if(m_ps4Controller->isConnected())
     {
         const auto gamepadState = private_lmqCoreApp_CreateGamepadState(
@@ -97,23 +96,6 @@ void lmqCoreApp::UpdateInputControllers()
 void lmqCoreApp::UpdateEngine()
 {
     m_engine->Update();
-}
-
-void lmqCoreApp::OnConsoleInput(const char* line)
-{
-    if(m_consoleInputController)
-    {
-        m_consoleInputController->OnConsoleInput(line);
-        m_engine->GetTasksScheduler().in(
-              500
-            , private_lmqCoreApp_ResetRobotInputTask
-            , this);
-    }
-}
-
-void lmqCoreApp::ResetRobotInput()
-{
-    m_robot->GetAutoMovementController()->SetSpeed(lmq_MOVEMENT_SPEED_STOP);
 }
 
 void lmqCoreApp::OnPS4ControllerConnected()
@@ -130,13 +112,6 @@ static void private_lmqCoreApp_OnPS4ControllerConnected()
 static void private_lmqCoreApp_OnPS4ControllerDisconnected()
 {
     lmq_LOG_INFO("PS4 controller is disconnected");
-}
-
-static bool private_lmqCoreApp_ResetRobotInputTask(
-    void* data)
-{
-    static_cast<lmqCoreApp*>(data)->ResetRobotInput();
-    return false;
 }
 
 static lmqGamepadState private_lmqCoreApp_CreateGamepadState(
