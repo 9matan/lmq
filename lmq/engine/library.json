@@ -4,11 +4,6 @@
 	"dependencies":
 	[
 		{
-			"owner": "contrem",
-			"name": "arduino-timer",
-			"version": "^3.0.1"
-		},
-		{
 			"owner": "zacsketches",
 			"name": "Arduino_pair",
 			"version": "https://github.com/zacsketches/Arduino_pair.git"

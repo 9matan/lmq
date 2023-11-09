@@ -15,7 +15,6 @@ void lmqEngine::Initialize()
 {
     m_console = new lmqConsole();
     m_console->Initialize(m_engineConfig.m_consoleBaud);
-    m_tasksScheduler = new Timer<>();
 #ifdef ARDUINO_ARCH_AVR
     SRamDisplay();
 #endif // ARDUINO_ARCH_AVR
@@ -24,9 +23,6 @@ void lmqEngine::Initialize()
 void lmqEngine::Update()
 {
     m_console->Update();
-    m_tasksScheduler->tick();
 }
 
 lmqConsole& lmqEngine::GetConsole() const { return *m_console; }
-
-Timer<>& lmqEngine::GetTasksScheduler() const { return *m_tasksScheduler; }

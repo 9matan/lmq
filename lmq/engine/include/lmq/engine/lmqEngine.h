@@ -16,10 +16,8 @@ public:
 
 public:
     lmqConsole& GetConsole() const;
-    Timer<>& GetTasksScheduler() const;
 
 private:
     lmqEngineConfig m_engineConfig;
-    Timer<>* m_tasksScheduler = nullptr;
     lmqConsole* m_console = nullptr;
 };
