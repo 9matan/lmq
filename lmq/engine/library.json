@@ -1,0 +1,25 @@
+{
+	"name": "lmq_engine",
+	"version": "0.0.1",
+	"dependencies":
+	[
+		{
+			"owner": "contrem",
+			"name": "arduino-timer",
+			"version": "^3.0.1"
+		},
+		{
+			"owner": "zacsketches",
+			"name": "Arduino_pair",
+			"version": "https://github.com/zacsketches/Arduino_pair.git"
+		},
+		{
+			"owner": "Locoduino",
+			"name": "MemoryUsage",
+			"version": "https://github.com/Locoduino/MemoryUsage#v2.21.1",
+			"platforms": ["atmelavr"]
+		}
+	],
+	"frameworks": "*",
+	"platforms": "*"
+}
