@@ -16,7 +16,6 @@ class lmqRobot;
 class lmqRobotController;
 
 class lmqCoreApp
-    : public lmqConsoleListener
 {
 public:
     static lmqCoreApp* GetInstance();
@@ -27,8 +26,6 @@ public:
     void Update();
     void UpdateInputControllers();
     void UpdateEngine();
-
-    virtual void OnConsoleInput(const char* line) override;
 
     void ResetRobotInput();
 
