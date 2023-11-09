@@ -24,12 +24,6 @@ public:
     void Initialize();
     
     void Update();
-    void UpdateInputControllers();
-    void UpdateEngine();
-
-    void ResetRobotInput();
-
-    void OnPS4ControllerConnected();
 
 private:
     lmqEngine* m_engine = nullptr;
@@ -44,4 +38,14 @@ private:
     void InitializeEngine();
     void InitializeRobot();
     void InitializeInputControllers();
+
+    void InitializeConsoleInputController();
+    void InitializePS4Controller();
+    void InitializeGamepadInputController();
+
+    void UpdateInputControllers();
+    void UpdateEngine();
+
+    void UpdateConsoleInputController();
+    void UpdateGamepadInputController();
 };
