@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-struct lmqGamepadState
+struct lmqGamepadControlsState
 {
     int8_t m_leftStickX = 0;
     int8_t m_leftStickY = 0;

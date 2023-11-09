@@ -10,5 +10,5 @@ void setup()
 void loop()
 {
     lmq_CORE_APP->Update();
-    delay(100);
+    delay(lmq_CORE_APP_UPDATE_PERIOD_MS);
 }

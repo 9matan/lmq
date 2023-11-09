@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-struct lmqGamepadState;
+struct lmqGamepadControlsState;
 class lmqRobotController;
 
 class lmqGamepadInputController
@@ -11,7 +11,8 @@ public:
     lmqGamepadInputController(
         lmqRobotController* robotController);
 
-    void OnGamepadState(const lmqGamepadState& gamepadState);
+    void OnGamepadControlsState(
+        const lmqGamepadControlsState& gamepadControlsState);
 
     void SetStickThreshold(const uint8_t stickThreshold);
 

@@ -12,8 +12,8 @@
 #include "lmq/system/Logging/lmqLogging.h"
 
 #include "lmq/engine/InputController/lmqConsoleInputController.h"
+#include "lmq/engine/InputController/lmqGamepadControlsState.h"
 #include "lmq/engine/InputController/lmqGamepadInputController.h"
-#include "lmq/engine/InputController/lmqGamepadState.h"
 #include "lmq/engine/lmqEngine.h"
 #include "lmq/engine/Robot/lmqRobot.h"
 #include "lmq/engine/Robot/lmqRobotController.h"
@@ -24,7 +24,8 @@
 
 static void private_lmqCoreApp_OnPS4ControllerConnected();
 static void private_lmqCoreApp_OnPS4ControllerDisconnected();
-static lmqGamepadState private_lmqCoreApp_CreateGamepadState(PS4Controller*);
+static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
+    PS4Controller*);
 
 lmqCoreApp* lmqCoreApp::GetInstance()
 {
@@ -61,15 +62,29 @@ void lmqCoreApp::InitializeRobot()
 
 void lmqCoreApp::InitializeInputControllers()
 {
+    InitializeConsoleInputController();
+    InitializePS4Controller();
+    InitializeGamepadInputController();
+}
+
+void lmqCoreApp::InitializeConsoleInputController()
+{
     m_consoleInputController = new lmqConsoleInputController(m_robotController);
     m_engine->GetConsole().RegisterConsoleListener(m_consoleInputController);
+}
 
+void lmqCoreApp::InitializePS4Controller()
+{
     m_ps4Controller = new PS4Controller();
     m_ps4Controller->begin();
     m_ps4Controller->attachOnConnect(
         private_lmqCoreApp_OnPS4ControllerConnected);
     m_ps4Controller->attachOnDisconnect(
         private_lmqCoreApp_OnPS4ControllerDisconnected);
+}
+
+void lmqCoreApp::InitializeGamepadInputController()
+{
     m_gamepadInputController = new lmqGamepadInputController(m_robotController);
     m_gamepadInputController->SetStickThreshold(lmq_GAMEPAD_STICK_THRESHOLD);
     m_gamepadInputController->SetTriggerThreshold(lmq_GAMEPAD_TRIGGER_THRESHOLD);
@@ -83,14 +98,8 @@ void lmqCoreApp::Update()
 
 void lmqCoreApp::UpdateInputControllers()
 {
-    m_consoleInputController->Update();
-
-    if(m_ps4Controller->isConnected())
-    {
-        const auto gamepadState = private_lmqCoreApp_CreateGamepadState(
-            m_ps4Controller);
-        m_gamepadInputController->OnGamepadState(gamepadState);
-    }
+    UpdateConsoleInputController();
+    UpdateGamepadInputController();
 }
 
 void lmqCoreApp::UpdateEngine()
@@ -98,15 +107,24 @@ void lmqCoreApp::UpdateEngine()
     m_engine->Update();
 }
 
-void lmqCoreApp::OnPS4ControllerConnected()
+void lmqCoreApp::UpdateConsoleInputController()
 {
-    lmq_LOG_INFO("PS4 controller is connected");
-    Serial.printf("\tBattery: %.2f%", (float)m_ps4Controller->Battery() / 2.55f);
+    m_consoleInputController->Update();
+}
+
+void lmqCoreApp::UpdateGamepadInputController()
+{
+    if(m_ps4Controller->isConnected())
+    {
+        const auto gamepadControlsState
+            = private_lmqCoreApp_CreateGamepadControlsState(m_ps4Controller);
+        m_gamepadInputController->OnGamepadControlsState(gamepadControlsState);
+    }
 }
 
 static void private_lmqCoreApp_OnPS4ControllerConnected()
 {
-    lmq_CORE_APP->OnPS4ControllerConnected();
+    lmq_LOG_INFO("PS4 controller is connected");
 }
 
 static void private_lmqCoreApp_OnPS4ControllerDisconnected()
@@ -114,18 +132,18 @@ static void private_lmqCoreApp_OnPS4ControllerDisconnected()
     lmq_LOG_INFO("PS4 controller is disconnected");
 }
 
-static lmqGamepadState private_lmqCoreApp_CreateGamepadState(
+static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
     PS4Controller* ps4Controller)
 {
-    lmqGamepadState gamepadState;
+    lmqGamepadControlsState gamepadControlsState;
 
-    gamepadState.m_leftStickX = ps4Controller->LStickX();
-    gamepadState.m_leftStickY = ps4Controller->LStickY();
-    gamepadState.m_rightStickX = ps4Controller->RStickX();
-    gamepadState.m_rightStickY = ps4Controller->RStickY();
+    gamepadControlsState.m_leftStickX = ps4Controller->LStickX();
+    gamepadControlsState.m_leftStickY = ps4Controller->LStickY();
+    gamepadControlsState.m_rightStickX = ps4Controller->RStickX();
+    gamepadControlsState.m_rightStickY = ps4Controller->RStickY();
     
-    gamepadState.m_l2Value = ps4Controller->L2Value();
-    gamepadState.m_r2Value = ps4Controller->R2Value();
+    gamepadControlsState.m_l2Value = ps4Controller->L2Value();
+    gamepadControlsState.m_r2Value = ps4Controller->R2Value();
 
-    return gamepadState;
+    return gamepadControlsState;
 }
