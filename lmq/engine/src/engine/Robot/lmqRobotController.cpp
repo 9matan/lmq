@@ -10,3 +10,14 @@ lmqAutoMovementController* lmqRobotController::GetAutoMovementController() const
 {
     return m_autoMovementController;
 }
+
+void lmqRobotController::SetManualMovementController(
+    lmqManualMovementController* manualMovementController)
+{
+    m_manualMovementController = manualMovementController;
+}
+
+lmqManualMovementController* lmqRobotController::GetManualMovementController() const
+{
+    return m_manualMovementController;
+}

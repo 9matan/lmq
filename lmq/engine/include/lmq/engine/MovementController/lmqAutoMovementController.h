@@ -2,13 +2,7 @@
 
 #include <stdint.h>
 
-#define lmq_MOVEMENT_TURN_LEFT -127
-#define lmq_MOVEMENT_TURN_RIGHT 127
-#define lmq_MOVEMENT_TURN_STRAIGHT 0
-
-#define lmq_MOVEMENT_SPEED_FORWARD 127
-#define lmq_MOVEMENT_SPEED_BACKWARD -127
-#define lmq_MOVEMENT_SPEED_STOP 0
+#include "lmq/engine/MovementController/lmqMovement.h"
 
 class lmqAutoMovementController
 {

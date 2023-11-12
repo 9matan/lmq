@@ -1,10 +1,12 @@
 #include "lmq/core_app/Robot/lmqRobot_L298N.h"
 
 lmqRobot_L298N::lmqRobot_L298N(
-      lmqMotorDriver_L298N::Channel mdChannelA
-    , lmqMotorDriver_L298N::Channel mdChannelB)
+      const lmqMotorDriver_L298N::Channel mdChannelA
+    , const lmqMotorDriver_L298N::Channel mdChannelB
+    , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask)
     : m_motorDriver(mdChannelA, mdChannelB)
     , m_autoMovementController(&m_motorDriver)
+    , m_manualMovementController(&m_motorDriver, leftChannelMask)
 {
 }
 
@@ -23,4 +25,9 @@ void lmqRobot_L298N::SetMotorDriverPowerLimits(
 lmqAutoMovementController* lmqRobot_L298N::GetAutoMovementController()
 {
     return &m_autoMovementController;
+}
+
+lmqManualMovementController* lmqRobot_L298N::GetManualMovementController()
+{
+    return &m_manualMovementController;
 }

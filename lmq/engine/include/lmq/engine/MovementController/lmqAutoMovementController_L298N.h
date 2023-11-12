@@ -10,8 +10,7 @@ class lmqAutoMovementController_L298N
     : public lmqAutoMovementController
 {
 public:
-    lmqAutoMovementController_L298N(
-        lmqMotorDriver_L298N* motorDriver);
+    lmqAutoMovementController_L298N(lmqMotorDriver_L298N* motorDriver);
 
     virtual void SetSpeed(int8_t speed) override;
     virtual void SetTurn(int8_t turn) override;

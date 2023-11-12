@@ -19,6 +19,7 @@
 #include "lmq/engine/Robot/lmqRobotController.h"
 #include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
 #include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
+#include "lmq/engine/MovementController/lmqManualMovementController_L298N.h"
 
 #include "lmq/core_app/Robot/lmqRobotBuilder.h"
 
@@ -58,6 +59,8 @@ void lmqCoreApp::InitializeRobot()
     m_robotController = new lmqRobotController();
     m_robotController->SetAutoMovementController(
         m_robot->GetAutoMovementController());
+    m_robotController->SetManualMovementController(
+        m_robot->GetManualMovementController());
 }
 
 void lmqCoreApp::InitializeInputControllers()
