@@ -25,7 +25,8 @@ static lmqRobot* BuildRobot_L298N()
 
     auto robot = new lmqRobot_L298N(
           channelA
-        , channelB);
+        , channelB
+        , lmq_MD_L298N_LEFT_CHANNEL_MASK);
     
     robot->Initialize();
     robot->SetMotorDriverPowerLimits(
