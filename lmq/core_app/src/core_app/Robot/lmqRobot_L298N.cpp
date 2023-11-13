@@ -5,7 +5,7 @@ lmqRobot_L298N::lmqRobot_L298N(
     , const lmqMotorDriver_L298N::Channel mdChannelB
     , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask)
     : m_motorDriver(mdChannelA, mdChannelB)
-    , m_autoMovementController(&m_motorDriver)
+    , m_autoMovementController(&m_motorDriver, leftChannelMask)
     , m_manualMovementController(&m_motorDriver, leftChannelMask)
 {
 }

@@ -2,23 +2,11 @@
 
 #include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
 
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
-
-#ifdef lmq_MOTOR_DRIVER_L298N_LEFT_CHANNEL
-#define lmqAutoMovementController_L298N_LeftChannel (lmqMotorDriver_L298N::EChannelFlag)lmq_MOTOR_DRIVER_L298N_LEFT_CHANNEL
-#else
-#define lmqAutoMovementController_L298N_LeftChannel lmqMotorDriver_L298N::CHANNELA
-#endif
-
-#ifdef lmq_MOTOR_DRIVER_L298N_RIGHT_CHANNEL
-#define lmqAutoMovementController_L298N_RightChannel (lmqMotorDriver_L298N::EChannelFlag)lmq_MOTOR_DRIVER_L298N_RIGHT_CHANNEL
-#else
-#define lmqAutoMovementController_L298N_RightChannel lmqMotorDriver_L298N::CHANNELB
-#endif
-
 lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
-      lmqMotorDriver_L298N* motorDriver)
+      lmqMotorDriver_L298N* motorDriver
+    , lmqMotorDriver_L298N::EChannelFlag leftChannelMask)
     : m_motorDriver(motorDriver)
+    , m_leftChannelMask(leftChannelMask)
     , m_speed(0)
     , m_turn(0)
 {
@@ -46,20 +34,24 @@ void lmqAutoMovementController_L298N::UpdateEnginePower()
         return;
     }
 
-    const int8_t leftChannelSpeed = map( min((int8_t)0, m_turn), lmq_MOVEMENT_TURN_LEFT, 0, -m_speed, m_speed);
-    const int8_t rightChannelSpeed = map( max((int8_t)0, m_turn), lmq_MOVEMENT_TURN_RIGHT, 0, -m_speed, m_speed);
-    
-    m_motorDriver->SetPower(
-          lmqAutoMovementController_L298N_LeftChannel
-        , 2 * abs(leftChannelSpeed));
-    m_motorDriver->SetPower(
-          lmqAutoMovementController_L298N_RightChannel
-        , 2 * abs(rightChannelSpeed));
+    const int8_t leftChannelSpeed = map(
+        min((int8_t)0, m_turn), lmq_MOVEMENT_TURN_LEFT, 0, -m_speed, m_speed);
+    const int8_t rightChannelSpeed = map(
+        max((int8_t)0, m_turn), lmq_MOVEMENT_TURN_RIGHT, 0, -m_speed, m_speed);
 
+    UpdateChannelSpeed(m_leftChannelMask, leftChannelSpeed);
+    const auto rightChannelMask = (lmqMotorDriver_L298N::EChannelFlag)
+            ((~m_leftChannelMask)
+             & lmqMotorDriver_L298N::EChannelFlag::ALL_CHANNELS);
+    UpdateChannelSpeed(rightChannelMask, rightChannelSpeed);
+}
+
+void lmqAutoMovementController_L298N::UpdateChannelSpeed(
+      const lmqMotorDriver_L298N::EChannelFlag channelMask
+    , const int8_t speed)
+{
+    m_motorDriver->SetPower(channelMask, 2 * abs(speed));
     m_motorDriver->SetMode(
-          lmqAutoMovementController_L298N_LeftChannel
-        , leftChannelSpeed >= 0 ? lmqMotorDriver_L298N::FORWARD : lmqMotorDriver_L298N::BACKWARD);
-    m_motorDriver->SetMode(
-          lmqAutoMovementController_L298N_RightChannel
-        , rightChannelSpeed >= 0 ? lmqMotorDriver_L298N::FORWARD : lmqMotorDriver_L298N::BACKWARD);
+          channelMask
+        , speed >= 0 ? lmqMotorDriver_L298N::FORWARD : lmqMotorDriver_L298N::BACKWARD);   
 }
