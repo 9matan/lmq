@@ -140,6 +140,8 @@ static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
 {
     lmqGamepadControlsState gamepadControlsState;
 
+    gamepadControlsState.m_upPressed = ps4Controller->Up();
+
     gamepadControlsState.m_leftStickX = ps4Controller->LStickX();
     gamepadControlsState.m_leftStickY = ps4Controller->LStickY();
     gamepadControlsState.m_rightStickX = ps4Controller->RStickX();
