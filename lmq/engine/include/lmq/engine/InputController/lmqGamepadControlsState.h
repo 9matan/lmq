@@ -4,6 +4,8 @@
 
 struct lmqGamepadControlsState
 {
+    bool m_upPressed = false;
+
     int8_t m_leftStickX = 0;
     int8_t m_leftStickY = 0;
     int8_t m_rightStickX = 0;
