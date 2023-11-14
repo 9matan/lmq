@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "lmq/core/lmqAxis.h"
 
 struct lmqGamepadControlsState;
 class lmqRobotController;
@@ -17,29 +17,11 @@ public:
     void SetTriggerThreshold(const uint8_t triggerThreshold);
 
 private:
-    enum EMovementMode
-    {
-        AUTO_MOVEMENT_MODE = 0,
-        MANUAL_MOVEMENT_MODE
-    };
-
-private:
     lmqRobotController* m_robotController;
     uint8_t m_stickThreshold;
     uint8_t m_triggerThreshold;
-    EMovementMode m_movementMode;
 
 private:
-    void UpdateAutoMovementMode(const lmqGamepadControlsState& gamepadControlsState);
-    void UpdateManualMovementMode(const lmqGamepadControlsState& gamepadControlsState);
-
-    int8_t GetValueFromStick(
-          const int8_t stickInput
-        , const int8_t outMin
-        , const int8_t outMax) const;
-    
-    int8_t GetValueFromTrigger(
-          const uint8_t triggerInput
-        , const int8_t outMin
-        , const int8_t outMax) const;
+    lmqAxis GetAxisFromStick(const int8_t stickInput) const;
+    lmqAxis GetAxisFromTrigger(const uint8_t triggerInput) const;
 };

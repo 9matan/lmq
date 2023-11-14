@@ -1,4 +1,4 @@
-#include <math.h>
+#include <Arduino.h>
 
 #include "lmq/engine/MovementController/lmqManualMovementController_L298N.h"
 
@@ -46,10 +46,10 @@ static void private_lmqManualMovementController_L298N_SetChannelSpeed(
 
     motorDriver->SetMode(
           channelMask
-        , speed >= 0 
+        , speed >= 0
             ? lmqMotorDriver_L298N::EMode::FORWARD
             : lmqMotorDriver_L298N::EMode::BACKWARD);
     motorDriver->SetPower(
           channelMask
-        , 2 * abs(speed));
+        , 2 * abs(max(speed, (int8_t)-127)));
 }

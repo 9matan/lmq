@@ -1,20 +1,51 @@
 #pragma once
 
+#include "lmq/core/lmqAxis.h"
+
+class lmqRobot;
+
 class lmqAutoMovementController;
 class lmqManualMovementController;
 
 class lmqRobotController
 {
 public:
-    void SetAutoMovementController(
-        lmqAutoMovementController* autoMovementController);
-    lmqAutoMovementController* GetAutoMovementController() const;
+    lmqRobotController(lmqRobot* robot);
 
-    void SetManualMovementController(
-        lmqManualMovementController* manualMovementController);
-    lmqManualMovementController* GetManualMovementController() const;
+    void Update();
+
+    void SwitchMovementMode();
+    void SetTurn(const lmqAxis axis);
+    void SetSpeed(const lmqAxis axis);
+    void SetLeftChannelSpeed(const lmqAxis axis);
+    void SetRightChannelSpeed(const lmqAxis axis);
 
 private:
+    enum EMovementMode
+    {
+        MOVEMENT_MODE_NONE = 0,
+        MOVEMENT_MODE_AUTO,
+        MOVEMENT_MODE_MANUAL
+    };
+
+private:
+    EMovementMode m_movementMode;
     lmqAutoMovementController* m_autoMovementController = nullptr;
     lmqManualMovementController* m_manualMovementController = nullptr;
+
+    union
+    {
+        lmqAxis m_turnAxis;
+        lmqAxis m_leftChannelSpeedAxis;
+    };
+    
+    union
+    {
+        lmqAxis m_speedAxis;
+        lmqAxis m_rightChannelSpeedAxis;
+    };
+    
+private:
+    void UpdateAutoMovementMode();
+    void UpdateManualMovementMode();
 };
