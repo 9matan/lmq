@@ -14,14 +14,15 @@ lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
 
 void lmqAutoMovementController_L298N::SetSpeed(int8_t speed)
 {
-    m_speed = speed;
+    // -128 is not used
+    m_speed = max(speed, (int8_t)-127);
     UpdateEnginePower();
 }
 
 void lmqAutoMovementController_L298N::SetTurn(int8_t turn)
 {
     // -128 is not used
-    m_turn = max(turn, (int8_t)lmq_MOVEMENT_TURN_LEFT);
+    m_turn = max(turn, (int8_t)-127);
     UpdateEnginePower();
 }
 

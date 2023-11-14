@@ -22,6 +22,7 @@ void lmqLogError(const char* str);
 #else // ARDUINO
 
 #define lmq_LOG_DEBUG(msg)
+#define lmq_LOG_INFO(msg);
 #define lmq_LOG_WARNING(msg)
 #define lmq_LOG_ERROR(msg)
 

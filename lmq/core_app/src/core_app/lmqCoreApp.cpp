@@ -55,12 +55,7 @@ void lmqCoreApp::InitializeEngine()
 void lmqCoreApp::InitializeRobot()
 {
     m_robot = lmqBuildDefaultRobot();
-
-    m_robotController = new lmqRobotController();
-    m_robotController->SetAutoMovementController(
-        m_robot->GetAutoMovementController());
-    m_robotController->SetManualMovementController(
-        m_robot->GetManualMovementController());
+    m_robotController = new lmqRobotController(m_robot);
 }
 
 void lmqCoreApp::InitializeInputControllers()
@@ -95,8 +90,14 @@ void lmqCoreApp::InitializeGamepadInputController()
 
 void lmqCoreApp::Update()
 {
-    UpdateInputControllers();
     UpdateEngine();
+    UpdateInputControllers();
+    UpdateRobot();
+}
+
+void lmqCoreApp::UpdateEngine()
+{
+    m_engine->Update();
 }
 
 void lmqCoreApp::UpdateInputControllers()
@@ -105,9 +106,9 @@ void lmqCoreApp::UpdateInputControllers()
     UpdateGamepadInputController();
 }
 
-void lmqCoreApp::UpdateEngine()
+void lmqCoreApp::UpdateRobot()
 {
-    m_engine->Update();
+    m_robotController->Update();
 }
 
 void lmqCoreApp::UpdateConsoleInputController()

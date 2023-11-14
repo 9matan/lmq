@@ -45,6 +45,7 @@ private:
 
     void UpdateInputControllers();
     void UpdateEngine();
+    void UpdateRobot();
 
     void UpdateConsoleInputController();
     void UpdateGamepadInputController();

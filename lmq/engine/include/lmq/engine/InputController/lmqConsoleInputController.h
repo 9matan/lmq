@@ -9,7 +9,7 @@ class lmqConsoleInputController
     : public lmqConsoleListener
 {
 public:
-    lmqConsoleInputController(const lmqRobotController* robotController);
+    lmqConsoleInputController(lmqRobotController* robotController);
 
     void Update();
     
@@ -17,5 +17,5 @@ public:
 
 private:
     unsigned long m_timePointToResetSpeed;
-    const lmqRobotController* m_robotController;
+    lmqRobotController* m_robotController;
 };
