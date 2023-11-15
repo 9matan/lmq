@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdarg.h>
+
+#include <Arduino.h>
+
+#include "lmq/system/Logging/lmqLogging.h"
+
+void lmqLog(const ELogLevel logLevel, const __FlashStringHelper* ifsh)
+{
+    Serial.println(ifsh);
+}
+
+void lmqLog(const ELogLevel logLevel, const char* str)
+{
+    Serial.println(str);
+}
+
+void lmqLogf(const ELogLevel logLevel, const char* format, ...)
+{
+    char buffer[lmq_LOGGING_BUFFER_SIZE];
+    va_list args;
+    va_start (args, format);
+    vsnprintf (buffer, lmq_LOGGING_BUFFER_SIZE, format, args);
+
+    Serial.println(buffer);
+
+    va_end (args);
+}
