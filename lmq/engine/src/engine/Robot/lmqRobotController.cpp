@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 #include "lmq/engine/Robot/lmqRobotController.h"
 
 #include "lmq/system/Logging/lmqLogging.h"

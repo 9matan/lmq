@@ -1,9 +1,11 @@
+#include "lmq/engine/InputController/lmqConsoleInputController.h"
+
 #include <limits.h>
 #include <string.h>
 
+#ifdef ARDUINO
 #include <Arduino.h>
-
-#include "lmq/engine/InputController/lmqConsoleInputController.h"
+#endif // ARDUINO
 
 #include "lmq/system/Console/lmqConsole.h"
 #include "lmq/system/Console/lmqConsoleListener.h"
@@ -22,10 +24,12 @@ lmqConsoleInputController::lmqConsoleInputController(
 
 void lmqConsoleInputController::Update()
 {
+#ifdef ARDUINO
     if(m_timePointToResetSpeed < millis())
     {
         m_robotController->SetSpeed(lmqAxis::Zero());
     }
+#endif // ARDUINO
 }
 
 void lmqConsoleInputController::OnConsoleInput(
@@ -68,7 +72,9 @@ void lmqConsoleInputController::OnConsoleInput(
 
     if(runResetSpeedTimer)
     {
+#ifdef ARDUINO
         m_timePointToResetSpeed
             = millis() + lmqConsoleInputController_TIME_TO_RESET_SPEAD;
+#endif // ARDUINO
     }
 }

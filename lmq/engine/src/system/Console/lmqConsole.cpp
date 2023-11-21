@@ -1,4 +1,6 @@
+#ifdef ARDUINO
 #include <Arduino.h>
+#endif // ARDUINO
 
 #include "lmq/system/Logging/lmqLogging.h"
 #include "lmq/system/Console/lmqConsole.h"
@@ -11,11 +13,14 @@
 
 void lmqConsole::Initialize(unsigned long baud)
 {
+#ifdef ARDUINO
     Serial.begin(baud);
+#endif // ARDUINO
 }
 
 void lmqConsole::Update()
 {
+#ifdef ARDUINO
     char buffer[lmq_MAX_CONSOLE_BUFFER_SIZE] = {0};
 
     if(Serial.available() > 0)
@@ -38,6 +43,7 @@ void lmqConsole::Update()
             }
         }
     }
+#endif // ARDUINO
 }
 
 void lmqConsole::RegisterConsoleListener(lmqConsoleListener* consoleListener)
