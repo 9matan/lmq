@@ -1,6 +1,9 @@
-#include <Arduino.h>
-
 #include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
+
+#include <algorithm>
+#include <math.h>
+
+#include "lmq/core/lmqLerp.h"
 
 lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
       lmqMotorDriver_L298N* motorDriver
@@ -15,14 +18,14 @@ lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
 void lmqAutoMovementController_L298N::SetSpeed(int8_t speed)
 {
     // -128 is not used
-    m_speed = max(speed, (int8_t)-127);
+    m_speed = std::max(speed, (int8_t)-127);
     UpdateEnginePower();
 }
 
 void lmqAutoMovementController_L298N::SetTurn(int8_t turn)
 {
     // -128 is not used
-    m_turn = max(turn, (int8_t)-127);
+    m_turn = std::max(turn, (int8_t)-127);
     UpdateEnginePower();
 }
 
@@ -35,10 +38,10 @@ void lmqAutoMovementController_L298N::UpdateEnginePower()
         return;
     }
 
-    const int8_t leftChannelSpeed = map(
-        min((int8_t)0, m_turn), lmq_MOVEMENT_TURN_LEFT, 0, -m_speed, m_speed);
-    const int8_t rightChannelSpeed = map(
-        max((int8_t)0, m_turn), lmq_MOVEMENT_TURN_RIGHT, 0, -m_speed, m_speed);
+    const int8_t leftChannelSpeed = lmqMapValue(
+        std::min((int8_t)0, m_turn), lmq_MOVEMENT_TURN_LEFT, 0, -m_speed, m_speed);
+    const int8_t rightChannelSpeed = lmqMapValue(
+        std::max((int8_t)0, m_turn), lmq_MOVEMENT_TURN_RIGHT, 0, -m_speed, m_speed);
 
     UpdateChannelSpeed(m_leftChannelMask, leftChannelSpeed);
     const auto rightChannelMask = (lmqMotorDriver_L298N::EChannelFlag)

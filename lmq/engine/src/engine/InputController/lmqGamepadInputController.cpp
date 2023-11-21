@@ -1,6 +1,8 @@
-#include <Arduino.h>
-
 #include "lmq/engine/InputController/lmqGamepadInputController.h"
+
+#include <math.h>
+
+#include "lmq/core/lmqLerp.h"
 
 #include "lmq/engine/InputController/lmqGamepadControlsState.h"
 #include "lmq/engine/Robot/lmqRobotController.h"
@@ -54,8 +56,8 @@ lmqAxis lmqGamepadInputController::GetAxisFromStick(
     {
         return lmqAxis::FromInt8(
             stickInput > 0
-            ? map(stickInput, m_stickThreshold / 2, 127, 1, 127)
-            : map(stickInput, -m_stickThreshold / 2, -128, -1, -128));
+            ? lmqMapValue(stickInput, m_stickThreshold / 2, 127, 1, 127)
+            : lmqMapValue(stickInput, -m_stickThreshold / 2, -128, -1, -128));
     }
     return lmqAxis::Zero();
 }
@@ -67,7 +69,7 @@ lmqAxis lmqGamepadInputController::GetAxisFromTrigger(
     if(triggerInput >= m_triggerThreshold)
     {
         return lmqAxis::FromUInt8(
-            map(triggerInput
+            lmqMapValue(triggerInput
                 , m_triggerThreshold, 255
                 , 1, 255));
     }
