@@ -5,6 +5,10 @@
 		},
 		{
 			"path": "lmq/engine"
+		},
+		{
+			"name": "engine_tests",
+			"path": "lmq/engine_tests"
 		}
 	],
 	"settings": {}
