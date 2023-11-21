@@ -1,7 +1,5 @@
 #pragma once
 
-#include <arduino-timer.h>
-
 #include "lmq/engine/lmqEngineConfig.h"
 
 class lmqConsole;

@@ -1,11 +1,15 @@
-#include <Arduino.h>
-
 #include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
+
+#ifdef ARDUINO
+#include <Arduino.h>
+#endif // ARDUINO
+
 
 inline void private_lmqMotorDriver_L298N_WriteModePins(
       lmqMotorDriver_L298N::Channel channel
     , lmqMotorDriver_L298N::EMode mode)
 {
+#ifdef ARDUINO
     switch(mode)
     {
     case lmqMotorDriver_L298N::EMode::STOP:
@@ -21,6 +25,7 @@ inline void private_lmqMotorDriver_L298N_WriteModePins(
         digitalWrite(channel.input2Pin, HIGH);
         break;
     }
+#endif // ARDUINO
 }
 
 lmqMotorDriver_L298N::lmqMotorDriver_L298N(
@@ -35,9 +40,11 @@ void lmqMotorDriver_L298N::Initialize()
 {
     for(uint8_t i = 0; (1 << i) < EChannelFlag::ALL_CHANNELS; ++i)
     {
+#ifdef ARDUINO
         pinMode(m_channels[i].input1Pin, OUTPUT);
         pinMode(m_channels[i].input2Pin, OUTPUT);
         pinMode(m_channels[i].enablePin, OUTPUT);
+#endif // ARDUINO
     }
 }
 
@@ -49,11 +56,13 @@ void lmqMotorDriver_L298N::SetPower(
     {
         if((1 << i) & channelMask)
         {
+#ifdef ARDUINO
             analogWrite(
                   m_channels[i].enablePin
                 , power == 0
                     ? 0
                     : map(power, 1, 255, m_powerLimits[i].first(), m_powerLimits[i].second()));
+#endif // ARDUINO
         }
     }
 }
