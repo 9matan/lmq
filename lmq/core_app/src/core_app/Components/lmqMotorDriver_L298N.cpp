@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
 
 inline void private_lmqMotorDriver_L298N_WriteModePins(
       lmqMotorDriver_L298N::Channel channel

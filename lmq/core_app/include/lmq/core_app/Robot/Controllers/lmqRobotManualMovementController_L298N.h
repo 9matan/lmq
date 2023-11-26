@@ -1,13 +1,13 @@
 #pragma once
 
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
-#include "lmq/engine/MovementController/lmqManualMovementController.h"
+#include "lmq/engine/Robot/Controllers/lmqRobotManualMovementController.h"
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
 
-class lmqManualMovementController_L298N
-    : public lmqManualMovementController
+class lmqRobotManualMovementController_L298N
+    : public lmqRobotManualMovementController
 {
 public:
-    lmqManualMovementController_L298N(
+    lmqRobotManualMovementController_L298N(
           lmqMotorDriver_L298N* motorDriver
         , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask);
 

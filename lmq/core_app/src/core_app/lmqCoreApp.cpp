@@ -17,10 +17,10 @@
 #include "lmq/engine/lmqEngine.h"
 #include "lmq/engine/Robot/lmqRobot.h"
 #include "lmq/engine/Robot/lmqRobotController.h"
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
-#include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
-#include "lmq/engine/MovementController/lmqManualMovementController_L298N.h"
 
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotAutoMovementController_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotManualMovementController_L298N.h"
 #include "lmq/core_app/Robot/lmqRobotBuilder.h"
 
 static void private_lmqCoreApp_OnPS4ControllerConnected();
