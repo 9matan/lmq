@@ -4,8 +4,8 @@
 
 class lmqRobot;
 
-class lmqAutoMovementController;
-class lmqManualMovementController;
+class lmqRobotAutoMovementController;
+class lmqRobotManualMovementController;
 
 class lmqRobotController
 {
@@ -30,8 +30,8 @@ private:
 
 private:
     EMovementMode m_movementMode;
-    lmqAutoMovementController* m_autoMovementController = nullptr;
-    lmqManualMovementController* m_manualMovementController = nullptr;
+    lmqRobotAutoMovementController* m_autoMovementController = nullptr;
+    lmqRobotManualMovementController* m_manualMovementController = nullptr;
 
     union
     {

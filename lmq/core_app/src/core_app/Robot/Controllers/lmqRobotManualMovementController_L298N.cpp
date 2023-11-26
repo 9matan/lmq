@@ -1,13 +1,13 @@
 #include <Arduino.h>
 
-#include "lmq/engine/MovementController/lmqManualMovementController_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotManualMovementController_L298N.h"
 
-static void private_lmqManualMovementController_L298N_SetChannelSpeed(
+static void private_lmqRobotManualMovementController_L298N_SetChannelSpeed(
       lmqMotorDriver_L298N* motorDriver
     , const lmqMotorDriver_L298N::EChannelFlag channelMask
     , const int8_t speed);
 
-lmqManualMovementController_L298N::lmqManualMovementController_L298N(
+lmqRobotManualMovementController_L298N::lmqRobotManualMovementController_L298N(
       lmqMotorDriver_L298N* motorDriver
     , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask)
     : m_motorDriver(motorDriver)
@@ -15,24 +15,24 @@ lmqManualMovementController_L298N::lmqManualMovementController_L298N(
 {
 }
 
-void lmqManualMovementController_L298N::SetLChannelSpeed(const int8_t speed)
+void lmqRobotManualMovementController_L298N::SetLChannelSpeed(const int8_t speed)
 {
-    private_lmqManualMovementController_L298N_SetChannelSpeed(
+    private_lmqRobotManualMovementController_L298N_SetChannelSpeed(
           m_motorDriver
         , m_leftChannelMask
         , speed);
 }
 
-void lmqManualMovementController_L298N::SetRChannelSpeed(const int8_t speed)
+void lmqRobotManualMovementController_L298N::SetRChannelSpeed(const int8_t speed)
 {
-    private_lmqManualMovementController_L298N_SetChannelSpeed(
+    private_lmqRobotManualMovementController_L298N_SetChannelSpeed(
           m_motorDriver
         , (lmqMotorDriver_L298N::EChannelFlag)( (~m_leftChannelMask)
             & lmqMotorDriver_L298N::EChannelFlag::ALL_CHANNELS)
         , speed);
 }
 
-static void private_lmqManualMovementController_L298N_SetChannelSpeed(
+static void private_lmqRobotManualMovementController_L298N_SetChannelSpeed(
       lmqMotorDriver_L298N* motorDriver
     , const lmqMotorDriver_L298N::EChannelFlag channelMask
     , const int8_t speed)

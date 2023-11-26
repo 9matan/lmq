@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-#include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotAutoMovementController_L298N.h"
 
-lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
+lmqRobotAutoMovementController_L298N::lmqRobotAutoMovementController_L298N(
       lmqMotorDriver_L298N* motorDriver
     , lmqMotorDriver_L298N::EChannelFlag leftChannelMask)
     : m_motorDriver(motorDriver)
@@ -12,21 +12,21 @@ lmqAutoMovementController_L298N::lmqAutoMovementController_L298N(
 {
 }
 
-void lmqAutoMovementController_L298N::SetSpeed(int8_t speed)
+void lmqRobotAutoMovementController_L298N::SetSpeed(int8_t speed)
 {
     // -128 is not used
     m_speed = max(speed, (int8_t)-127);
     UpdateEnginePower();
 }
 
-void lmqAutoMovementController_L298N::SetTurn(int8_t turn)
+void lmqRobotAutoMovementController_L298N::SetTurn(int8_t turn)
 {
     // -128 is not used
     m_turn = max(turn, (int8_t)-127);
     UpdateEnginePower();
 }
 
-void lmqAutoMovementController_L298N::UpdateEnginePower()
+void lmqRobotAutoMovementController_L298N::UpdateEnginePower()
 {
     if(m_speed == lmq_MOVEMENT_SPEED_STOP)
     {
@@ -47,7 +47,7 @@ void lmqAutoMovementController_L298N::UpdateEnginePower()
     UpdateChannelSpeed(rightChannelMask, rightChannelSpeed);
 }
 
-void lmqAutoMovementController_L298N::UpdateChannelSpeed(
+void lmqRobotAutoMovementController_L298N::UpdateChannelSpeed(
       const lmqMotorDriver_L298N::EChannelFlag channelMask
     , const int8_t speed)
 {

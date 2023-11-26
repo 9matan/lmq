@@ -22,12 +22,12 @@ void lmqRobot_L298N::SetMotorDriverPowerLimits(
         lmqMotorDriver_L298N::ALL_CHANNELS, powerLimit);
 }
 
-lmqAutoMovementController* lmqRobot_L298N::GetAutoMovementController()
+lmqRobotAutoMovementController* lmqRobot_L298N::GetAutoMovementController()
 {
     return &m_autoMovementController;
 }
 
-lmqManualMovementController* lmqRobot_L298N::GetManualMovementController()
+lmqRobotManualMovementController* lmqRobot_L298N::GetManualMovementController()
 {
     return &m_manualMovementController;
 }

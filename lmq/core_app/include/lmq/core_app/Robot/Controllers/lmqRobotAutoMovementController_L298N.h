@@ -2,16 +2,16 @@
 
 #include <stdint.h>
 
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
-#include "lmq/engine/MovementController/lmqAutoMovementController.h"
+#include "lmq/engine/Robot/Controllers/lmqRobotAutoMovementController.h"
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
 
 class lmqMotorDriver_L298N;
 
-class lmqAutoMovementController_L298N
-    : public lmqAutoMovementController
+class lmqRobotAutoMovementController_L298N
+    : public lmqRobotAutoMovementController
 {
 public:
-    lmqAutoMovementController_L298N(
+    lmqRobotAutoMovementController_L298N(
           lmqMotorDriver_L298N* motorDriver
         , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask);
 

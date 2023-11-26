@@ -4,8 +4,8 @@
 
 #include "lmq/system/Logging/lmqLogging.h"
 
-#include "lmq/engine/MovementController/lmqAutoMovementController.h"
-#include "lmq/engine/MovementController/lmqManualMovementController.h"
+#include "lmq/engine/Robot/Controllers/lmqRobotAutoMovementController.h"
+#include "lmq/engine/Robot/Controllers/lmqRobotManualMovementController.h"
 #include "lmq/engine/Robot/lmqRobot.h"
 
 lmqRobotController::lmqRobotController(lmqRobot* robot)
