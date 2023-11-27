@@ -29,10 +29,6 @@ lmqMotorDriver_L298N::lmqMotorDriver_L298N(
     : m_channels{ channelA, channelB }
     , m_powerLimits{ {0, 255}, {0, 255} }
 {
-}
-
-void lmqMotorDriver_L298N::Initialize()
-{
     for(uint8_t i = 0; (1 << i) < EChannelFlag::ALL_CHANNELS; ++i)
     {
         pinMode(m_channels[i].input1Pin, OUTPUT);

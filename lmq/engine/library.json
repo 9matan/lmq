@@ -4,15 +4,18 @@
 	"dependencies":
 	[
 		{
-			"owner": "zacsketches",
-			"name": "Arduino_pair",
-			"version": "https://github.com/zacsketches/Arduino_pair.git"
-		},
-		{
 			"owner": "Locoduino",
 			"name": "MemoryUsage",
 			"version": "https://github.com/Locoduino/MemoryUsage#v2.21.1",
-			"platforms": ["atmelavr"]
+			"platforms": ["atmelavr"],
+			"frameworks": ["arduino"]
+		},
+		{
+			"owner": "madhephaestus",
+			"name": "ESP32Servo",
+			"version": "^1.1.1",
+			"platforms": ["espressif32"],
+			"frameworks": ["arduino"]
 		}
 	],
 	"frameworks": "*",

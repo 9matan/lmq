@@ -3,7 +3,7 @@
 
 #define lmq_CONSOLE_BAUD 115200
 
-#define lmq_GAMEPAD_STICK_THRESHOLD 30
+#define lmq_GAMEPAD_STICK_THRESHOLD 50
 #define lmq_GAMEPAD_TRIGGER_THRESHOLD 30
 
 #define lmq_MD_L298N_POWER_LIMITS_6V_MOTOR_7_4V_PS lmqPowerRange(100, 230)
@@ -11,6 +11,9 @@
 #define lmq_DEFAULT_MD_L298N_POWER_LIMITS lmq_MD_L298N_POWER_LIMITS_6V_MOTOR_7_4V_PS
 
 #define lmq_MD_L298N_LEFT_CHANNEL_MASK lmqMotorDriver_L298N::CHANNELB
+
+#define lmq_ROBOT_HEAD_SERVO_MOTOR_MAX_ANGLE_SPEED 7
+#define lmq_ROBOT_HEAD_SERVO_MOTOR_INIT_ANGLE 90
 
 #ifdef ARDUINO_AVR_UNO
 
@@ -32,4 +35,8 @@
 #define lmq_MOTOR_DRIVER_L298N_IN3 26
 #define lmq_MOTOR_DRIVER_L298N_IN4 25
 
+#define lmq_ROBOT_HEAD_SERVO_MOTOR_PIN 13
+
+#else // !ESP32
+#error "The application is not configured for the platform"
 #endif // ESP32

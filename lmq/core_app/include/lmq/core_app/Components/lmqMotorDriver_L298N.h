@@ -6,8 +6,6 @@
 
 typedef Pair<uint8_t, uint8_t> lmqPowerRange;
 
-#define lmq_DRIVER_L298N_MAX_POWER 255
-
 class lmqMotorDriver_L298N
 {
 public:
@@ -37,7 +35,6 @@ public:
           Channel channelA
         , Channel channelB);
 
-    void Initialize();
     void SetPower(
           EChannelFlag channelMask
         , uint8_t power);
