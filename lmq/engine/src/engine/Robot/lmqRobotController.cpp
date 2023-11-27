@@ -5,12 +5,14 @@
 #include "lmq/system/Logging/lmqLogging.h"
 
 #include "lmq/engine/Robot/Controllers/lmqRobotAutoMovementController.h"
+#include "lmq/engine/Robot/Controllers/lmqRobotHeadController.h"
 #include "lmq/engine/Robot/Controllers/lmqRobotManualMovementController.h"
 #include "lmq/engine/Robot/lmqRobot.h"
 
 lmqRobotController::lmqRobotController(lmqRobot* robot)
     : m_autoMovementController(robot->GetAutoMovementController())
     , m_manualMovementController(robot->GetManualMovementController())
+    , m_headController(robot->GetHeadController())
     , m_movementMode(MOVEMENT_MODE_NONE)
     , m_speedAxis(lmqAxis::Zero())
     , m_turnAxis(lmqAxis::Zero())
@@ -110,5 +112,13 @@ void lmqRobotController::SetRightChannelSpeed(const lmqAxis axis)
     if(m_movementMode == MOVEMENT_MODE_MANUAL)
     {
         m_rightChannelSpeedAxis = axis;
+    }
+}
+
+void lmqRobotController::RotateHead(const lmqAxis axis)
+{
+    if(m_headController)
+    {
+        m_headController->Rotate(axis.ToInt8());
     }
 }

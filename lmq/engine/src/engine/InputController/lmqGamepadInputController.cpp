@@ -34,6 +34,10 @@ void lmqGamepadInputController::OnGamepadControlsState(
 
     const auto rChannelSpeed = GetAxisFromStick(gamepadControlsState.m_rightStickY);
     m_robotController->SetRightChannelSpeed(rChannelSpeed);
+
+    const auto headRotationSpeed
+        = GetAxisFromStick(gamepadControlsState.m_rightStickX).GetInverted();
+    m_robotController->RotateHead(headRotationSpeed);
 }
 
 void lmqGamepadInputController::SetStickThreshold(const uint8_t stickThreshold)
