@@ -4,8 +4,9 @@
 
 class lmqRobot;
 
-class lmqAutoMovementController;
-class lmqManualMovementController;
+class lmqRobotAutoMovementController;
+class lmqRobotHeadController;
+class lmqRobotManualMovementController;
 
 class lmqRobotController
 {
@@ -20,6 +21,8 @@ public:
     void SetLeftChannelSpeed(const lmqAxis axis);
     void SetRightChannelSpeed(const lmqAxis axis);
 
+    void RotateHead(const lmqAxis axis);
+
 private:
     enum EMovementMode
     {
@@ -30,8 +33,9 @@ private:
 
 private:
     EMovementMode m_movementMode;
-    lmqAutoMovementController* m_autoMovementController = nullptr;
-    lmqManualMovementController* m_manualMovementController = nullptr;
+    lmqRobotAutoMovementController* m_autoMovementController = nullptr;
+    lmqRobotManualMovementController* m_manualMovementController = nullptr;
+    lmqRobotHeadController* m_headController = nullptr;
 
     union
     {

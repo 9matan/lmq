@@ -1,10 +1,16 @@
 #include <Arduino.h>
 
-#ifdef ESP32
+#ifdef ARDUINO_ARCH_ESP32
+#include <ESP32PWM.h>
+#endif // ARDUINO_ARCH_ESP32
+
+#ifdef ARDUINO_ARCH_ESP32
 #define NO_GLOBAL_INSTANCES
 #include <PS4Controller.h>
 #undef NO_GLOBAL_INSTANCES
-#endif // ESP32
+#else // ARDUINO_ARCH_ESP32
+#error "The platform does not support PS4Controller"
+#endif // !ARDUINO_ARCH_ESP32
 
 #include "lmq/core_app/lmqCoreApp.h"
 
@@ -17,10 +23,10 @@
 #include "lmq/engine/lmqEngine.h"
 #include "lmq/engine/Robot/lmqRobot.h"
 #include "lmq/engine/Robot/lmqRobotController.h"
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
-#include "lmq/engine/MovementController/lmqAutoMovementController_L298N.h"
-#include "lmq/engine/MovementController/lmqManualMovementController_L298N.h"
 
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotAutoMovementController_L298N.h"
+#include "lmq/core_app/Robot/Controllers/lmqRobotManualMovementController_L298N.h"
 #include "lmq/core_app/Robot/lmqRobotBuilder.h"
 
 static void private_lmqCoreApp_OnPS4ControllerConnected();
@@ -36,11 +42,19 @@ lmqCoreApp* lmqCoreApp::GetInstance()
 
 void lmqCoreApp::Initialize()
 {
+    InitializeExternalLibs();
     InitializeEngine();
     InitializeRobot();
     InitializeInputControllers();
 
     lmq_LOG_INFO("App is initialized");
+}
+
+void lmqCoreApp::InitializeExternalLibs()
+{
+#ifdef ARDUINO_ARCH_ESP32
+    ESP32PWM::allocateTimer(0);
+#endif // ARDUINO_ARCH_ESP32
 }
 
 void lmqCoreApp::InitializeEngine()

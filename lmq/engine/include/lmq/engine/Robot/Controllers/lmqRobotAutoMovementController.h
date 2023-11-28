@@ -2,12 +2,12 @@
 
 #include <stdint.h>
 
-#include "lmq/engine/MovementController/lmqMovement.h"
+#include "lmq/engine/Robot/lmqRobotMovement.h"
 
-class lmqAutoMovementController
+class lmqRobotAutoMovementController
 {
 public:
-    virtual ~lmqAutoMovementController() {}
+    virtual ~lmqRobotAutoMovementController() {}
 
     virtual void SetSpeed(int8_t speed) = 0;
     virtual void SetTurn(int8_t turn) = 0;

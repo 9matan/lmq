@@ -35,6 +35,7 @@ private:
     lmqConsoleInputController* m_consoleInputController = nullptr;
 
 private:
+    void InitializeExternalLibs();
     void InitializeEngine();
     void InitializeRobot();
     void InitializeInputControllers();

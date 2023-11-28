@@ -1,13 +1,15 @@
 #pragma once
 
-class lmqAutoMovementController;
-class lmqManualMovementController;
+class lmqRobotAutoMovementController;
+class lmqRobotManualMovementController;
+class lmqRobotHeadController;
 
 class lmqRobot
 {
 public:
     virtual ~lmqRobot() {}
 
-    virtual lmqAutoMovementController* GetAutoMovementController() = 0;
-    virtual lmqManualMovementController* GetManualMovementController() = 0;
+    virtual lmqRobotAutoMovementController* GetAutoMovementController() = 0;
+    virtual lmqRobotManualMovementController* GetManualMovementController() = 0;
+    virtual lmqRobotHeadController* GetHeadController() = 0;
 };

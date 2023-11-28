@@ -1,9 +1,8 @@
-#include "lmq/engine/MotorDriver/lmqMotorDriver_L298N.h"
+#include "lmq/core_app/Components/lmqMotorDriver_L298N.h"
 
 #ifdef ARDUINO
 #include <Arduino.h>
 #endif // ARDUINO
-
 
 inline void private_lmqMotorDriver_L298N_WriteModePins(
       lmqMotorDriver_L298N::Channel channel
@@ -33,10 +32,6 @@ lmqMotorDriver_L298N::lmqMotorDriver_L298N(
     , Channel channelB)
     : m_channels{ channelA, channelB }
     , m_powerLimits{ {0, 255}, {0, 255} }
-{
-}
-
-void lmqMotorDriver_L298N::Initialize()
 {
     for(uint8_t i = 0; (1 << i) < EChannelFlag::ALL_CHANNELS; ++i)
     {
