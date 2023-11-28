@@ -5,11 +5,7 @@
 #include "lmq/system/Logging/lmqLogging.h"
 #include "lmq/system/Console/lmqConsole.h"
 
-#ifdef ARDUINO_ARCH_AVR
-#define lmq_MAX_CONSOLE_BUFFER_SIZE SERIAL_RX_BUFFER_SIZE
-#else
 #define lmq_MAX_CONSOLE_BUFFER_SIZE 64
-#endif // ARDUINO_ARCH_AVR
 
 void lmqConsole::Initialize(unsigned long baud)
 {
