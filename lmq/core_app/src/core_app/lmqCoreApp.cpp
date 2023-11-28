@@ -1,4 +1,6 @@
+#ifdef ARDUINO
 #include <Arduino.h>
+#endif // ARDUINO
 
 #ifdef ARDUINO_ARCH_ESP32
 #include <ESP32PWM.h>
@@ -9,7 +11,7 @@
 #include <PS4Controller.h>
 #undef NO_GLOBAL_INSTANCES
 #else // ARDUINO_ARCH_ESP32
-#error "The platform does not support PS4Controller"
+#error "The PS4Controller is not implemented for the platform"
 #endif // !ARDUINO_ARCH_ESP32
 
 #include "lmq/core_app/lmqCoreApp.h"
@@ -29,10 +31,12 @@
 #include "lmq/core_app/Robot/Controllers/lmqRobotManualMovementController_L298N.h"
 #include "lmq/core_app/Robot/lmqRobotBuilder.h"
 
+#ifdef ARDUINO_ARCH_ESP32
 static void private_lmqCoreApp_OnPS4ControllerConnected();
 static void private_lmqCoreApp_OnPS4ControllerDisconnected();
 static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
     PS4Controller*);
+#endif // ARDUINO_ARCH_ESP32
 
 lmqCoreApp* lmqCoreApp::GetInstance()
 {
@@ -87,12 +91,14 @@ void lmqCoreApp::InitializeConsoleInputController()
 
 void lmqCoreApp::InitializePS4Controller()
 {
+#ifdef ARDUINO_ARCH_ESP32
     m_ps4Controller = new PS4Controller();
     m_ps4Controller->begin();
     m_ps4Controller->attachOnConnect(
         private_lmqCoreApp_OnPS4ControllerConnected);
     m_ps4Controller->attachOnDisconnect(
         private_lmqCoreApp_OnPS4ControllerDisconnected);
+#endif // ARDUINO_ARCH_ESP32
 }
 
 void lmqCoreApp::InitializeGamepadInputController()
@@ -132,14 +138,17 @@ void lmqCoreApp::UpdateConsoleInputController()
 
 void lmqCoreApp::UpdateGamepadInputController()
 {
+#ifdef ARDUINO_ARCH_ESP32
     if(m_ps4Controller->isConnected())
     {
         const auto gamepadControlsState
             = private_lmqCoreApp_CreateGamepadControlsState(m_ps4Controller);
         m_gamepadInputController->OnGamepadControlsState(gamepadControlsState);
     }
+#endif // ARDUINO_ARCH_ESP32
 }
 
+#ifdef ARDUINO_ARCH_ESP32
 static void private_lmqCoreApp_OnPS4ControllerConnected()
 {
     lmq_LOG_INFO("PS4 controller is connected");
@@ -167,3 +176,4 @@ static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
 
     return gamepadControlsState;
 }
+#endif // ARDUINO_ARCH_ESP32

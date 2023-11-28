@@ -3,7 +3,7 @@
 #ifdef ARDUINO_ARCH_ESP32
 #include <ESP32Servo.h>
 #else // ARDUINO_ARCH_ESP32
-#error "The platform does not support servo motors"
+#error "The servo motor is not implemented for the platform"
 #endif // !ARDUINO_ARCH_ESP32
 
 lmqServoMotor::lmqServoMotor(

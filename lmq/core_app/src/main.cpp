@@ -1,14 +1,5 @@
-#include <Arduino.h>
-
-#include "lmq/core_app/lmqCoreApp.h"
-
-void setup()
-{
-    lmq_CORE_APP->Initialize();
-}
-
-void loop()
-{
-    lmq_CORE_APP->Update();
-    delay(lmq_CORE_APP_UPDATE_PERIOD_MS);
-}
+#ifdef ARDUINO
+#include "platform/main_arduino.include"
+#else // ARDUINO
+#error "The entry point is not implemented for the platform"
+#endif // !ARDUINO
