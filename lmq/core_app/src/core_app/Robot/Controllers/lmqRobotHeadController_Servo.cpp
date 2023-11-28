@@ -2,8 +2,7 @@
 
 #include <algorithm>
 
-#include <Arduino.h>
-
+#include "lmq/core/lmqLerp.h"
 #include "lmq/core_app/Components/ServoMotor/lmqServoMotor.h"
 
 lmqRobotHeadController_Servo::lmqRobotHeadController_Servo(
@@ -24,10 +23,13 @@ void lmqRobotHeadController_Servo::Rotate(const int8_t speed)
         return;
     }
 
-    const long deltaAngle = map(speed
+    const long deltaAngle = lmqMapValue(speed
             , -128, 127
             , -(long)m_maxAngleSpeed, m_maxAngleSpeed);
-    m_currentAngle = constrain(deltaAngle + (long)m_currentAngle, 0, 180);
+    m_currentAngle = std::max(
+          0L, std::min(
+          180L
+        , deltaAngle + (long)m_currentAngle));
 
     m_servo->RotateTo(m_currentAngle);        
 }

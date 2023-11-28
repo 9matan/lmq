@@ -11,5 +11,9 @@
 			"path": "lmq/engine_tests"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.include": "cpp"
+		}
+	}
 }
