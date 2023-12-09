@@ -69,13 +69,10 @@ lmqAxis lmqGamepadInputController::GetAxisFromStick(
 lmqAxis lmqGamepadInputController::GetAxisFromTrigger(
     const uint8_t triggerInput) const
 {
-    if(triggerInput == 0) return lmqAxis::Zero();
-    if(triggerInput >= m_triggerThreshold)
-    {
-        return lmqAxis::FromUInt8(
-            lmqMapValue(triggerInput
-                , m_triggerThreshold, 255
-                , 1, 255));
-    }
-    return lmqAxis::Zero();
+    if(triggerInput < m_triggerThreshold) return lmqAxis::Zero();
+    
+    return lmqAxis::FromInt8(
+        lmqMapValue(triggerInput
+            , m_triggerThreshold, 255
+            , 1, 255) / 2);
 }
