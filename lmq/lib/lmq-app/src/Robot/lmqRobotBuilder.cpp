@@ -1,7 +1,7 @@
 #include "lmq/app/lmqAppConfig.h"
 #include "lmq/app/Robot/lmqRobotBuilder.h"
 
-#include "lmq/robot/lmqRobot_L298N.h"
+#include "lmq/robot/lmqRobot_Syrnyk.h"
 
 static lmqRobot* BuildRobot_L298N();
 
@@ -22,7 +22,7 @@ static lmqRobot* BuildRobot_L298N()
     channelB.input1Pin = lmq_MOTOR_DRIVER_L298N_IN3_PIN;
     channelB.input2Pin = lmq_MOTOR_DRIVER_L298N_IN4_PIN;
 
-    auto robot = new lmqRobot_L298N(
+    auto robot = new lmqRobot_Syrnyk(
           channelA
         , channelB
         , lmq_MD_L298N_LEFT_CHANNEL_MASK

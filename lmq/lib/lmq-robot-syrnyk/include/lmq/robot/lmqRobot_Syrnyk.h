@@ -8,11 +8,11 @@
 #include "lmq/robot/Controllers/lmqRobotHeadController_Servo.h"
 #include "lmq/robot/Controllers/lmqRobotManualMovementController_L298N.h"
 
-class lmqRobot_L298N
+class lmqRobot_Syrnyk
     : public lmqRobot
 {
 public:
-    lmqRobot_L298N(
+    lmqRobot_Syrnyk(
           const lmqMotorDriver_L298N::Channel mdChannelA
         , const lmqMotorDriver_L298N::Channel mdChannelB
         , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask

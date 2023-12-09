@@ -1,6 +1,6 @@
-#include "lmq/robot/lmqRobot_L298N.h"
+#include "lmq/robot/lmqRobot_Syrnyk.h"
 
-lmqRobot_L298N::lmqRobot_L298N(
+lmqRobot_Syrnyk::lmqRobot_Syrnyk(
       const lmqMotorDriver_L298N::Channel mdChannelA
     , const lmqMotorDriver_L298N::Channel mdChannelB
     , const lmqMotorDriver_L298N::EChannelFlag leftChannelMask
@@ -15,24 +15,24 @@ lmqRobot_L298N::lmqRobot_L298N(
 {
 }
 
-void lmqRobot_L298N::SetMotorDriverPowerLimits(
+void lmqRobot_Syrnyk::SetMotorDriverPowerLimits(
     lmqPowerRange powerLimit)
 {
     m_motorDriver.SetPowerLimits(
         lmqMotorDriver_L298N::ALL_CHANNELS, powerLimit);
 }
 
-lmqRobotAutoMovementController* lmqRobot_L298N::GetAutoMovementController()
+lmqRobotAutoMovementController* lmqRobot_Syrnyk::GetAutoMovementController()
 {
     return &m_autoMovementController;
 }
 
-lmqRobotManualMovementController* lmqRobot_L298N::GetManualMovementController()
+lmqRobotManualMovementController* lmqRobot_Syrnyk::GetManualMovementController()
 {
     return &m_manualMovementController;
 }
 
-lmqRobotHeadController* lmqRobot_L298N::GetHeadController()
+lmqRobotHeadController* lmqRobot_Syrnyk::GetHeadController()
 {
     return &m_headController;
 }
