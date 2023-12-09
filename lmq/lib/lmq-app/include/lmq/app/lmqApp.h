@@ -1,10 +1,10 @@
 #pragma once
 
-#include "lmq/app/lmqCoreAppConfig.h"
+#include "lmq/app/lmqAppConfig.h"
 
 #include "lmq/system/Console/lmqConsoleListener.h"
 
-#define lmq_CORE_APP lmqCoreApp::GetInstance()
+#define lmq_CORE_APP lmqApp::GetInstance()
 
 class PS4Controller;
 
@@ -15,10 +15,10 @@ class lmqGamepadInputController;
 class lmqRobot;
 class lmqRobotController;
 
-class lmqCoreApp
+class lmqApp
 {
 public:
-    static lmqCoreApp* GetInstance();
+    static lmqApp* GetInstance();
 
 public:
     void Initialize();

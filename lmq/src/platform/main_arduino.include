@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "lmq/app/lmqCoreApp.h"
+#include "lmq/app/lmqApp.h"
 
 void setup()
 {

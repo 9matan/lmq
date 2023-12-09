@@ -1,4 +1,4 @@
-#include "lmq/app/lmqCoreAppConfig.h"
+#include "lmq/app/lmqAppConfig.h"
 #include "lmq/app/Robot/lmqRobotBuilder.h"
 
 #include "lmq/robot/lmqRobot_L298N.h"

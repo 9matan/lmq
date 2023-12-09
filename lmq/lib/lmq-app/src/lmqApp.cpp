@@ -1,4 +1,4 @@
-#include "lmq/app/lmqCoreApp.h"
+#include "lmq/app/lmqApp.h"
 
 #ifdef ARDUINO
 #include <Arduino.h>
@@ -34,19 +34,19 @@
 #include "lmq/app/Robot/lmqRobotBuilder.h"
 
 #ifdef ARDUINO_ARCH_ESP32
-static void private_lmqCoreApp_OnPS4ControllerConnected();
-static void private_lmqCoreApp_OnPS4ControllerDisconnected();
-static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
+static void private_lmqApp_OnPS4ControllerConnected();
+static void private_lmqApp_OnPS4ControllerDisconnected();
+static lmqGamepadControlsState private_lmqApp_CreateGamepadControlsState(
     PS4Controller*);
 #endif // ARDUINO_ARCH_ESP32
 
-lmqCoreApp* lmqCoreApp::GetInstance()
+lmqApp* lmqApp::GetInstance()
 {
-    static lmqCoreApp app;
+    static lmqApp app;
     return &app;
 }
 
-void lmqCoreApp::Initialize()
+void lmqApp::Initialize()
 {
     InitializeExternalLibs();
     InitializeEngine();
@@ -56,14 +56,14 @@ void lmqCoreApp::Initialize()
     lmq_LOG_INFO("App is initialized");
 }
 
-void lmqCoreApp::InitializeExternalLibs()
+void lmqApp::InitializeExternalLibs()
 {
 #ifdef ARDUINO_ARCH_ESP32
     ESP32PWM::allocateTimer(0);
 #endif // ARDUINO_ARCH_ESP32
 }
 
-void lmqCoreApp::InitializeEngine()
+void lmqApp::InitializeEngine()
 {
     lmqEngineConfig engineConfig;
     engineConfig.m_consoleBaud = lmq_CONSOLE_BAUD;
@@ -72,96 +72,96 @@ void lmqCoreApp::InitializeEngine()
     m_engine->Initialize();
 }
 
-void lmqCoreApp::InitializeRobot()
+void lmqApp::InitializeRobot()
 {
     m_robot = lmqBuildDefaultRobot();
     m_robotController = new lmqRobotController(m_robot);
 }
 
-void lmqCoreApp::InitializeInputControllers()
+void lmqApp::InitializeInputControllers()
 {
     InitializeConsoleInputController();
     InitializePS4Controller();
     InitializeGamepadInputController();
 }
 
-void lmqCoreApp::InitializeConsoleInputController()
+void lmqApp::InitializeConsoleInputController()
 {
     m_consoleInputController = new lmqConsoleInputController(m_robotController);
     m_engine->GetConsole().RegisterConsoleListener(m_consoleInputController);
 }
 
-void lmqCoreApp::InitializePS4Controller()
+void lmqApp::InitializePS4Controller()
 {
 #ifdef ARDUINO_ARCH_ESP32
     m_ps4Controller = new PS4Controller();
     m_ps4Controller->begin();
     m_ps4Controller->attachOnConnect(
-        private_lmqCoreApp_OnPS4ControllerConnected);
+        private_lmqApp_OnPS4ControllerConnected);
     m_ps4Controller->attachOnDisconnect(
-        private_lmqCoreApp_OnPS4ControllerDisconnected);
+        private_lmqApp_OnPS4ControllerDisconnected);
 #endif // ARDUINO_ARCH_ESP32
 }
 
-void lmqCoreApp::InitializeGamepadInputController()
+void lmqApp::InitializeGamepadInputController()
 {
     m_gamepadInputController = new lmqGamepadInputController(m_robotController);
     m_gamepadInputController->SetStickThreshold(lmq_GAMEPAD_STICK_THRESHOLD);
     m_gamepadInputController->SetTriggerThreshold(lmq_GAMEPAD_TRIGGER_THRESHOLD);
 }
 
-void lmqCoreApp::Update()
+void lmqApp::Update()
 {
     UpdateEngine();
     UpdateInputControllers();
     UpdateRobot();
 }
 
-void lmqCoreApp::UpdateEngine()
+void lmqApp::UpdateEngine()
 {
     m_engine->Update();
 }
 
-void lmqCoreApp::UpdateInputControllers()
+void lmqApp::UpdateInputControllers()
 {
     UpdateConsoleInputController();
     UpdateGamepadInputController();
 }
 
-void lmqCoreApp::UpdateRobot()
+void lmqApp::UpdateRobot()
 {
     m_robotController->Update();
 }
 
-void lmqCoreApp::UpdateConsoleInputController()
+void lmqApp::UpdateConsoleInputController()
 {
     m_consoleInputController->Update();
 }
 
-void lmqCoreApp::UpdateGamepadInputController()
+void lmqApp::UpdateGamepadInputController()
 {
 #ifdef ARDUINO_ARCH_ESP32
     if(m_ps4Controller->isConnected())
     {
         const auto gamepadControlsState
-            = private_lmqCoreApp_CreateGamepadControlsState(m_ps4Controller);
+            = private_lmqApp_CreateGamepadControlsState(m_ps4Controller);
         m_gamepadInputController->OnGamepadControlsState(gamepadControlsState);
     }
 #endif // ARDUINO_ARCH_ESP32
 }
 
 #ifdef ARDUINO_ARCH_ESP32
-static void private_lmqCoreApp_OnPS4ControllerConnected()
+static void private_lmqApp_OnPS4ControllerConnected()
 {
     lmq_LOG_INFO("PS4 controller is connected");
 }
 
-static void private_lmqCoreApp_OnPS4ControllerDisconnected()
+static void private_lmqApp_OnPS4ControllerDisconnected()
 {
     lmq_LOG_INFO("PS4 controller is disconnected");
 }
 
-static lmqGamepadControlsState private_lmqCoreApp_CreateGamepadControlsState(
+static lmqGamepadControlsState private_lmqApp_CreateGamepadControlsState(
     PS4Controller* ps4Controller)
 {
     lmqGamepadControlsState gamepadControlsState;
