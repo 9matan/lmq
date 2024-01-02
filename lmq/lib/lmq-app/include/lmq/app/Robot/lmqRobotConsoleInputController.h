@@ -5,11 +5,11 @@
 class lmqConsole;
 class lmqRobotController;
 
-class lmqConsoleInputController
+class lmqRobotConsoleInputController
     : public lmqConsoleListener
 {
 public:
-    lmqConsoleInputController(lmqRobotController* robotController);
+    lmqRobotConsoleInputController(lmqRobotController* robotController);
 
     void Update();
     

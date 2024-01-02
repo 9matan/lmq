@@ -11,10 +11,13 @@ public:
     static inline lmqAxis Min() { return lmqAxis(int8_t(-128)); }
 
 public:
+    lmqAxis();
     lmqAxis GetInverted();
 
     int8_t ToInt8() const;
     int8_t ToInt8(const int8_t minVal, const int8_t maxVal) const;
+
+    lmqAxis operator+(lmqAxis const other) const;
 
 private:
     int8_t m_value;
