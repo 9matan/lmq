@@ -7,7 +7,7 @@
 
 #define lmq_MAX_CONSOLE_BUFFER_SIZE 64
 
-void lmqConsole::Initialize(unsigned long baud)
+lmqConsole::lmqConsole(unsigned long baud)
 {
 #ifdef ARDUINO
     Serial.begin(baud);

@@ -5,7 +5,8 @@
 class lmqConsole
 {
 public:
-    void Initialize(unsigned long baud);
+    lmqConsole(unsigned long baud);
+    
     void Update();
 
     void RegisterConsoleListener(lmqConsoleListener* consoleListener);

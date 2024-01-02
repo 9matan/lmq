@@ -6,14 +6,13 @@
 
 #define lmq_CORE_APP lmqApp::GetInstance()
 
-class PS4Controller;
-
 class lmqEngine;
 
-class lmqConsoleInputController;
-class lmqGamepadInputController;
 class lmqRobot;
 class lmqRobotController;
+
+class lmqRobotConsoleInputController;
+class lmqRobotPS4InputController;
 
 class lmqApp
 {
@@ -30,9 +29,8 @@ private:
     lmqRobot* m_robot = nullptr;
     lmqRobotController* m_robotController = nullptr;
 
-    PS4Controller* m_ps4Controller = nullptr;
-    lmqGamepadInputController* m_gamepadInputController = nullptr;
-    lmqConsoleInputController* m_consoleInputController = nullptr;
+    lmqRobotConsoleInputController* m_robotConsoleInputController = nullptr;
+    lmqRobotPS4InputController* m_robotPS4InputController = nullptr;
 
 private:
     void InitializeExternalLibs();
@@ -40,14 +38,10 @@ private:
     void InitializeRobot();
     void InitializeInputControllers();
 
-    void InitializeConsoleInputController();
-    void InitializePS4Controller();
-    void InitializeGamepadInputController();
+    void InitializeRobotPS4InputController();
+    void InitializeRobotConsoleInputController();
 
     void UpdateInputControllers();
     void UpdateEngine();
     void UpdateRobot();
-
-    void UpdateConsoleInputController();
-    void UpdateGamepadInputController();
 };
