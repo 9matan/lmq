@@ -11,112 +11,54 @@ lmqRobotController::lmqRobotController(lmqRobot* robot)
     : m_autoMovementController(robot->GetAutoMovementController())
     , m_manualMovementController(robot->GetManualMovementController())
     , m_headController(robot->GetHeadController())
-    , m_movementMode(MOVEMENT_MODE_NONE)
-    , m_speedAxis(lmqAxis::Zero())
-    , m_turnAxis(lmqAxis::Zero())
 {
-    if(m_autoMovementController) m_movementMode = MOVEMENT_MODE_AUTO;
-    else if(m_manualMovementController) m_movementMode = MOVEMENT_MODE_MANUAL;
 }
 
 void lmqRobotController::Update()
 {
-    if(m_movementMode == MOVEMENT_MODE_AUTO)
-    {
-        UpdateAutoMovementMode();
-    }
-    else if(m_movementMode == MOVEMENT_MODE_MANUAL)
-    {
-        UpdateManualMovementMode();
-    }
 }
 
-void lmqRobotController::UpdateAutoMovementMode()
+void lmqRobotController::SetAutoMovementParams(
+      const lmqAxis speedAxis
+    , const lmqAxis turnAxis)
 {
-    const int8_t speed = m_speedAxis.ToInt8();
+    if(!m_autoMovementController)
+    {
+        lmq_LOG_DEBUG("Can't use the auto move mode: controller is missing");
+        return;
+    }
+
+    const int8_t speed = speedAxis.ToInt8();
     m_autoMovementController->SetSpeed(speed);
     if(speed != lmq_MOVEMENT_SPEED_STOP)
     {
-        m_autoMovementController->SetTurn(m_turnAxis.ToInt8());
+        m_autoMovementController->SetTurn(turnAxis.ToInt8());
     }
 }
 
-void lmqRobotController::UpdateManualMovementMode()
+void lmqRobotController::SetManualMovementParams(
+      const lmqAxis leftChannelSpeedAxis
+    , const lmqAxis rightChannelSpeedAxis)
 {
+    if(!m_manualMovementController)
+    {
+        lmq_LOG_DEBUG("Can't use the manual move mode: controller is missing");
+        return;
+    }
+
     m_manualMovementController->SetLChannelSpeed(
-        m_leftChannelSpeedAxis.ToInt8());
+        leftChannelSpeedAxis.ToInt8());
     m_manualMovementController->SetRChannelSpeed(
-        m_rightChannelSpeedAxis.ToInt8());
+        rightChannelSpeedAxis.ToInt8());
 }
 
-void lmqRobotController::SwitchMovementMode()
+void lmqRobotController::RotateHead(const lmqAxis rotationAxis)
 {
-    if(m_movementMode == MOVEMENT_MODE_AUTO)
+    if(!m_headController)
     {
-        if(m_manualMovementController)
-        {
-            lmq_LOG_INFO("Switch the move mode to manual");
-            m_movementMode = MOVEMENT_MODE_MANUAL;
-        }
-        else
-        {
-            lmq_LOG_DEBUG("Can't set the manual move mode: controller is missing");
-        }
+        lmq_LOG_DEBUG("Can't rotate the head: controller is missing");
+        return;
     }
-    else if(m_movementMode == MOVEMENT_MODE_MANUAL)
-    {
-        if(m_autoMovementController)
-        {
-            lmq_LOG_INFO("Switch the move mode to auto");
-            m_movementMode = MOVEMENT_MODE_AUTO;
-        }
-        else
-        {
-            lmq_LOG_DEBUG("Can't set the auto move mode: controller is missing");
-        }
-    }
-    else
-    {
-        lmq_LOG_ERROR("Cat't set the move mode: there are no controllers");
-    }
-}
 
-void lmqRobotController::SetTurn(const lmqAxis axis)
-{
-    if(m_movementMode == MOVEMENT_MODE_AUTO)
-    {
-        m_turnAxis = axis;
-    }
-}
-
-void lmqRobotController::SetSpeed(const lmqAxis axis)
-{
-    if(m_movementMode == MOVEMENT_MODE_AUTO)
-    {
-        m_speedAxis = axis;
-    }
-}
-
-void lmqRobotController::SetLeftChannelSpeed(const lmqAxis axis)
-{
-    if(m_movementMode == MOVEMENT_MODE_MANUAL)
-    {
-        m_leftChannelSpeedAxis = axis;
-    }
-}
-
-void lmqRobotController::SetRightChannelSpeed(const lmqAxis axis)
-{
-    if(m_movementMode == MOVEMENT_MODE_MANUAL)
-    {
-        m_rightChannelSpeedAxis = axis;
-    }
-}
-
-void lmqRobotController::RotateHead(const lmqAxis axis)
-{
-    if(m_headController)
-    {
-        m_headController->Rotate(axis.ToInt8());
-    }
+    m_headController->Rotate(rotationAxis.ToInt8());
 }

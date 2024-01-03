@@ -15,41 +15,17 @@ public:
 
     void Update();
 
-    void SwitchMovementMode();
-    void SetTurn(const lmqAxis axis);
-    void SetSpeed(const lmqAxis axis);
-    void SetLeftChannelSpeed(const lmqAxis axis);
-    void SetRightChannelSpeed(const lmqAxis axis);
+    void SetAutoMovementParams(
+          const lmqAxis speedAxis
+        , const lmqAxis turnAxis);
+    void SetManualMovementParams(
+          const lmqAxis leftChannelSpeedAxis
+        , const lmqAxis rightChannelSpeedAxis);
 
-    void RotateHead(const lmqAxis axis);
-
-private:
-    enum EMovementMode
-    {
-        MOVEMENT_MODE_NONE = 0,
-        MOVEMENT_MODE_AUTO,
-        MOVEMENT_MODE_MANUAL
-    };
+    void RotateHead(const lmqAxis rotationAxis);
 
 private:
-    EMovementMode m_movementMode;
     lmqRobotAutoMovementController* m_autoMovementController = nullptr;
     lmqRobotManualMovementController* m_manualMovementController = nullptr;
     lmqRobotHeadController* m_headController = nullptr;
-
-    union
-    {
-        lmqAxis m_turnAxis;
-        lmqAxis m_leftChannelSpeedAxis;
-    };
-    
-    union
-    {
-        lmqAxis m_speedAxis;
-        lmqAxis m_rightChannelSpeedAxis;
-    };
-    
-private:
-    void UpdateAutoMovementMode();
-    void UpdateManualMovementMode();
 };

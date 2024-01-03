@@ -103,10 +103,13 @@ void lmqApp::UpdateEngine()
 
 void lmqApp::UpdateInputControllers()
 {
-#if lmq_PS4_CONTROLLER_SUPPORTED
-    m_robotPS4InputController->Update();
-#endif // lmq_PS4_CONTROLLER_SUPPORTED
     m_robotConsoleInputController->Update();
+#if lmq_PS4_CONTROLLER_SUPPORTED
+    if(!m_robotConsoleInputController->IsActive())
+    {
+        m_robotPS4InputController->Update();
+    }
+#endif // lmq_PS4_CONTROLLER_SUPPORTED
 }
 
 void lmqApp::UpdateRobot()

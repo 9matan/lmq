@@ -34,15 +34,15 @@ void lmqPS4Controller::Update()
     if(!m_ps4Controller->isConnected())
         return;
 
-    if(m_ps4Controller->Up()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Up);
-    if(m_ps4Controller->Down()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Down);
-    if(m_ps4Controller->Left()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Left);
-    if(m_ps4Controller->Right()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Right);
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Up, m_ps4Controller->Up());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Down, m_ps4Controller->Down());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Left, m_ps4Controller->Left());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Right, m_ps4Controller->Right());
 
-    if(m_ps4Controller->Cross()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Cross);
-    if(m_ps4Controller->Circle()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Circle);
-    if(m_ps4Controller->Triangle()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Triangle);
-    if(m_ps4Controller->Square()) m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Square);
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Cross, m_ps4Controller->Cross());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Circle, m_ps4Controller->Circle());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Triangle, m_ps4Controller->Triangle());
+    m_inputSystem->SetIsKeyPressed(lmqPS4KeyCode::Square, m_ps4Controller->Square());
 
     m_inputSystem->SetAxis(lmqPS4AxisCode::LeftStickX, GetAxisFromStick(m_ps4Controller->LStickX()));
     m_inputSystem->SetAxis(lmqPS4AxisCode::LeftStickY, GetAxisFromStick(m_ps4Controller->LStickY()));
