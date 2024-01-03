@@ -12,9 +12,9 @@ class lmqInputSystem
 {
 public:
     template<typename TKeyCode>
-    void SetIsKeyPressed(const TKeyCode keyCode)
+    void SetIsKeyPressed(const TKeyCode keyCode, const bool isPressed)
     {
-        SetIsKeyPressedInternal((lmqKeyCode)keyCode);
+        SetIsKeyPressedInternal((lmqKeyCode)keyCode, isPressed);
     }
     template<typename TAxisCode>
     void SetAxis(const TAxisCode axisCode, lmqAxis const axis)
@@ -36,16 +36,14 @@ public:
     template<typename TKeyCode>
     void RegisterKeyCodes()
     {
-        static_assert(lmq_INPUT_SYSTEM_KEYS_COUNT >= TKeyCode::End);
+        static_assert(lmq_INPUT_SYSTEM_KEYS_COUNT >= (int)TKeyCode::End);
     }
 
     template<typename TAxisCode>
     void RegisterAxisCodes()
     {
-        static_assert(lmq_INPUT_SYSTEM_AXISES_COUNT >= TAxisCode::End);
+        static_assert(lmq_INPUT_SYSTEM_AXISES_COUNT >= (int)TAxisCode::End);
     }
-
-    void Update();
 
 private:
     typedef uint8_t lmqKeyCode;
@@ -56,7 +54,7 @@ private:
     lmqAxis m_axises[lmq_INPUT_SYSTEM_AXISES_COUNT];
 
 private:
-    void SetIsKeyPressedInternal(const lmqKeyCode keyCode);
+    void SetIsKeyPressedInternal(const lmqKeyCode keyCode, const bool isPressed);
     void SetAxisInternal(const lmqAxisCode axisCode, lmqAxis const axis);
 
     bool IsKeyPressedInternal(const lmqKeyCode keyCode) const;

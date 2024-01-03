@@ -15,6 +15,8 @@ public:
     
     virtual void OnConsoleInput(const char* line) override;
 
+    bool IsActive() const;
+
 private:
     unsigned long m_timePointToResetSpeed;
     lmqRobotController* m_robotController;

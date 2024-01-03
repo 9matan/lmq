@@ -25,9 +25,12 @@ lmqRobotConsoleInputController::lmqRobotConsoleInputController(
 void lmqRobotConsoleInputController::Update()
 {
 #ifdef ARDUINO
-    if(m_timePointToResetSpeed < millis())
+    if(m_timePointToResetSpeed != ULONG_MAX && m_timePointToResetSpeed < millis())
     {
-        m_robotController->SetSpeed(lmqAxis::Zero());
+        m_timePointToResetSpeed = ULONG_MAX;
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Zero()
+            , lmqAxis::Zero());
     }
 #endif // ARDUINO
 }
@@ -35,40 +38,57 @@ void lmqRobotConsoleInputController::Update()
 void lmqRobotConsoleInputController::OnConsoleInput(
     const char* line)
 {
-    const char cmdTurnLeft[] = "turn-l";
-    const char cmdTurnRight[] = "turn-r";
-    const char cmdTurnStraight[] = "turn-s";
-    const char cmdMoveForward[] = "move-f";
-    const char cmdMoveBackward[] = "move-b";
     const char cmdStop[] = "stop";
+    const char cmdMoveFL[] = "move-fl";
+    const char cmdMoveFR[] = "move-fr";
+    const char cmdMoveF[] = "move-f";
+    const char cmdMoveBL[] = "move-bl";
+    const char cmdMoveBR[] = "move-br";
+    const char cmdMoveB[] = "move-b";
 
-    Serial.print(line);
-    bool runResetSpeedTimer = false;
+    bool runResetSpeedTimer = true;
     if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdStop, line) == 0)
     {
-        m_robotController->SetSpeed(lmqAxis::Zero());
+        runResetSpeedTimer = false;
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Zero()
+            , lmqAxis::Zero());
     }
-    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveForward, line) == 0)
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveFL, line) == 0)
     {
-        runResetSpeedTimer = true;
-        m_robotController->SetSpeed(lmqAxis::Max());
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Max()
+            , lmqAxis::Min());
     }
-    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveBackward, line) == 0)
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveFR, line) == 0)
     {
-        runResetSpeedTimer = true;
-        m_robotController->SetSpeed(lmqAxis::Min());
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Max()
+            , lmqAxis::Max());
     }
-    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdTurnStraight, line) == 0)
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveF, line) == 0)
     {
-        m_robotController->SetTurn(lmqAxis::Zero());
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Max()
+            , lmqAxis::Zero());
     }
-    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdTurnLeft, line) == 0)
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveBL, line) == 0)
     {
-        m_robotController->SetTurn(lmqAxis::Min());
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Min()
+            , lmqAxis::Min());
     }
-    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdTurnRight, line) == 0)
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveBR, line) == 0)
     {
-        m_robotController->SetTurn(lmqAxis::Max());
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Min()
+            , lmqAxis::Max());
+    }
+    else if(lmqRobotConsoleInputController_CMP_STR_ARR(cmdMoveB, line) == 0)
+    {
+        m_robotController->SetAutoMovementParams(
+              lmqAxis::Min()
+            , lmqAxis::Zero());
     }
 
     if(runResetSpeedTimer)
@@ -78,4 +98,9 @@ void lmqRobotConsoleInputController::OnConsoleInput(
             = millis() + lmqRobotConsoleInputController_TIME_TO_RESET_SPEED;
 #endif // ARDUINO
     }
+}
+
+bool lmqRobotConsoleInputController::IsActive() const
+{
+    return m_timePointToResetSpeed != ULONG_MAX;
 }

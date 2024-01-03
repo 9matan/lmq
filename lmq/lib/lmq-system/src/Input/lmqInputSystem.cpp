@@ -1,8 +1,8 @@
 #include "lmq/system/Input/lmqInputSystem.h"
 
-void lmqInputSystem::SetIsKeyPressedInternal(const lmqKeyCode keyCode)
+void lmqInputSystem::SetIsKeyPressedInternal(const lmqKeyCode keyCode, const bool isPressed)
 {
-    m_isKeyPressed.set(keyCode, true);
+    m_isKeyPressed.set(keyCode, isPressed);
 }
 
 void lmqInputSystem::SetAxisInternal(const lmqAxisCode axisCode, lmqAxis const axis)
@@ -18,9 +18,4 @@ bool lmqInputSystem::IsKeyPressedInternal(const lmqKeyCode keyCode) const
 lmqAxis lmqInputSystem::GetAxisInternal(const lmqAxisCode axisCode) const
 {
     return m_axises[axisCode];
-}
-
-void lmqInputSystem::Update()
-{
-    m_isKeyPressed.reset();
 }

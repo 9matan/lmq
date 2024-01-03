@@ -2,6 +2,7 @@
 
 #include "lmq/system/Console/lmqConsole.h"
 #include "lmq/system/Input/Controller/lmqPS4Controller.h"
+#include "lmq/system/Input/Controller/lmqPS4ControllerKeyCodes.h"
 #include "lmq/system/Input/lmqInputSystem.h"
 
 lmqEngine::lmqEngine(const lmqEngineConfig& engineConfig)
@@ -26,6 +27,8 @@ void lmqEngine::InitializeInput()
 #if lmq_PS4_CONTROLLER_SUPPORTED
     if(m_engineConfig.m_isPS4ControllerEnabled)
     {
+        m_inputSystem->RegisterKeyCodes<lmqPS4KeyCode>();
+        m_inputSystem->RegisterAxisCodes<lmqPS4AxisCode>();
         m_ps4Controller = new lmqPS4Controller(m_inputSystem);
     }
 #endif // lmq_PS4_CONTROLLER_SUPPORTED
@@ -44,7 +47,6 @@ void lmqEngine::UpdateConsole()
 
 void lmqEngine::UpdateInput()
 {
-    m_inputSystem->Update();
 #if lmq_PS4_CONTROLLER_SUPPORTED
     m_ps4Controller->Update();
 #endif // lmq_PS4_CONTROLLER_SUPPORTED
